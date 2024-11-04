@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 
 import { SignInDto } from '@/modules/auth/dto/sign-in.dto';
-import { User } from '@/modules/auth/user.entity';
-import { ComparePasswordTransaction } from '@/modules/auth/utils/compare-password.transaction';
-import { GenerateTokenTransaction } from '@/modules/auth/utils/generate-token.transaction';
+import { generateToken } from '@/modules/auth/utils/jwt-actions';
+import { comparePassword } from '@/modules/auth/utils/password-actions';
+import { User } from '@/modules/user/user.entity';
 import { Transaction } from '@/shared/transaction';
 
 type SignInTransactionInput = SignInDto;
@@ -15,11 +15,7 @@ export class SignInTransaction extends Transaction<
   SignInTransactionInput,
   SignInTransactionOutput
 > {
-  constructor(
-    dataSource: DataSource,
-    private readonly comparePasswordTransaction: ComparePasswordTransaction,
-    private readonly generateTokenTransaction: GenerateTokenTransaction,
-  ) {
+  constructor(dataSource: DataSource) {
     super(dataSource);
   }
 
@@ -35,26 +31,13 @@ export class SignInTransaction extends Transaction<
       throw new NotFoundException('Email or password is incorrect');
     }
 
-    const passwordMatch =
-      await this.comparePasswordTransaction.runWithinTransaction(
-        {
-          password,
-          hashedPassword: user.password,
-        },
-        manager,
-      );
+    const passwordMatch = await comparePassword(password, user.password);
 
     if (!passwordMatch) {
       throw new NotFoundException('Email or password is incorrect');
     }
 
-    const token = await this.generateTokenTransaction.runWithinTransaction(
-      {
-        userId: user.id,
-        expiresIn: rememberMe ? '30d' : '1d',
-      },
-      manager,
-    );
+    const token = generateToken(user.id, rememberMe ? '30d' : '1d');
 
     return token;
   }

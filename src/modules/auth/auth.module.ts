@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 
+import { CreateAccountTransaction } from '@/modules/account/transactions/create-account.transaction';
 import { AuthController } from '@/modules/auth/auth.controller';
 import { AuthService } from '@/modules/auth/auth.service';
 import { SignInTransaction } from '@/modules/auth/transactions/sign-in.transaction';
 import { SignUpTransaction } from '@/modules/auth/transactions/sign-up.transaction';
-import { ComparePasswordTransaction } from '@/modules/auth/utils/compare-password.transaction';
-import { GenerateTokenTransaction } from '@/modules/auth/utils/generate-token.transaction';
-import { HashPasswordTransaction } from '@/modules/auth/utils/hash-password.transaction';
+import { CreateConfigurationTransaction } from '@/modules/configuration/transactions/create-configuration.transaction';
 
 @Module({
   controllers: [AuthController],
@@ -14,9 +13,8 @@ import { HashPasswordTransaction } from '@/modules/auth/utils/hash-password.tran
     AuthService,
     SignInTransaction,
     SignUpTransaction,
-    HashPasswordTransaction,
-    ComparePasswordTransaction,
-    GenerateTokenTransaction,
+    CreateConfigurationTransaction,
+    CreateAccountTransaction,
   ],
 })
 export class AuthModule {}

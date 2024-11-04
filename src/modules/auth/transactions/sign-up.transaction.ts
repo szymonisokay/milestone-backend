@@ -1,9 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 
+import { CreateAccountTransaction } from '@/modules/account/transactions/create-account.transaction';
 import { SignUpDto } from '@/modules/auth/dto/sign-up.dto';
-import { User } from '@/modules/auth/user.entity';
-import { HashPasswordTransaction } from '@/modules/auth/utils/hash-password.transaction';
+import { hashPassword } from '@/modules/auth/utils/password-actions';
+import { CreateConfigurationTransaction } from '@/modules/configuration/transactions/create-configuration.transaction';
+import { User } from '@/modules/user/user.entity';
 import { Transaction } from '@/shared/transaction';
 
 type SignUpTransactionInput = SignUpDto;
@@ -16,7 +18,8 @@ export class SignUpTransaction extends Transaction<
 > {
   constructor(
     dataSource: DataSource,
-    private readonly hashPasswordTransaction: HashPasswordTransaction,
+    private readonly createConfigurationTransaction: CreateConfigurationTransaction,
+    private readonly createAccountTransaction: CreateAccountTransaction,
   ) {
     super(dataSource);
   }
@@ -33,14 +36,18 @@ export class SignUpTransaction extends Transaction<
       throw new BadRequestException('User already exists');
     }
 
-    const hashedPassword =
-      await this.hashPasswordTransaction.runWithinTransaction(
-        password,
-        manager,
-      );
-
-    const user = manager.create(User, { email, password: hashedPassword });
+    const hashedPassword = await hashPassword(password);
+    const user = manager.create(User, {
+      email,
+      password: hashedPassword,
+    });
 
     await manager.save(user);
+
+    await this.createAccountTransaction.runWithinTransaction(user.id, manager);
+    await this.createConfigurationTransaction.runWithinTransaction(
+      user.id,
+      manager,
+    );
   }
 }
