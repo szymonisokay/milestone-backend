@@ -10,7 +10,10 @@ import { UserMiddleware } from '@/middleware/user.middleware';
 import { AccountModule } from '@/modules/account/account.module';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { ConfigurationModule } from '@/modules/configuration/configuration.module';
+import { OnboardingModule } from '@/modules/onboarding/onboarding.module';
+import { ProjectModule } from '@/modules/projects/projects.module';
 import { SessionModule } from '@/modules/session/session.module';
+import { SprintsModule } from '@/modules/sprints/sprints.module';
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
@@ -34,6 +37,9 @@ import { UserModule } from '@/modules/user/user.module';
     UserModule,
     AccountModule,
     ConfigurationModule,
+    OnboardingModule,
+    ProjectModule,
+    SprintsModule,
   ],
   providers: [],
 })

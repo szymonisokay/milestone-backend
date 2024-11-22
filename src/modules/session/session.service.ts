@@ -1,5 +1,5 @@
+import { User } from '@/entities/user.entity';
 import { GetSessionTransaction } from '@/modules/session/transactions/get-session.transaction';
-import { User } from '@/modules/user/user.entity';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

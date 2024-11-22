@@ -1,26 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 
-import { Account } from '@/modules/account/account.entity';
+import { Account } from '@/entities/account.entity';
+import { CreateAccountDto } from '@/modules/account/dto/create-account.dto';
 import { Transaction } from '@/shared/transaction';
 
-type CreateAccountTransactionInput = string;
-type CreateAccountTransactionOutput = Account;
+type TransactionInput = CreateAccountDto;
+type TransactionOutput = Account;
 
 @Injectable()
 export class CreateAccountTransaction extends Transaction<
-  CreateAccountTransactionInput,
-  CreateAccountTransactionOutput
+  TransactionInput,
+  TransactionOutput
 > {
   constructor(dataSource: DataSource) {
     super(dataSource);
   }
 
   protected async execute(
-    userId: CreateAccountTransactionInput,
+    data: TransactionInput,
     manager: EntityManager,
-  ): Promise<CreateAccountTransactionOutput> {
-    const account = manager.create(Account, { user: { id: userId } });
+  ): Promise<TransactionOutput> {
+    const account = manager.create(Account, data);
 
     return await manager.save(account);
   }

@@ -1,8 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 
 import { ActiveUser } from '@/decorators/active-user.decorator';
+import { User } from '@/entities/user.entity';
 import { ConfigurationService } from '@/modules/configuration/configuration.service';
-import { User } from '@/modules/user/user.entity';
 
 @Controller('configuration')
 export class ConfigurationController {

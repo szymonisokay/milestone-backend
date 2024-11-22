@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 
+import { User } from '@/entities/user.entity';
 import { decodeToken } from '@/modules/auth/utils/jwt-actions';
-import { User } from '@/modules/user/user.entity';
 import { DataSource } from 'typeorm';
 
 @Injectable()

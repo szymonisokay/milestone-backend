@@ -1,28 +1,28 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 
+import { User } from '@/entities/user.entity';
 import { SignInDto } from '@/modules/auth/dto/sign-in.dto';
 import { generateToken } from '@/modules/auth/utils/jwt-actions';
 import { comparePassword } from '@/modules/auth/utils/password-actions';
-import { User } from '@/modules/user/user.entity';
 import { Transaction } from '@/shared/transaction';
 
-type SignInTransactionInput = SignInDto;
-type SignInTransactionOutput = string;
+type TransactionInput = SignInDto;
+type TransactionOutput = string;
 
 @Injectable()
 export class SignInTransaction extends Transaction<
-  SignInTransactionInput,
-  SignInTransactionOutput
+  TransactionInput,
+  TransactionOutput
 > {
   constructor(dataSource: DataSource) {
     super(dataSource);
   }
 
   protected async execute(
-    data: SignInDto,
+    data: TransactionInput,
     manager: EntityManager,
-  ): Promise<SignInTransactionOutput> {
+  ): Promise<TransactionOutput> {
     const { email, password, rememberMe } = data;
 
     const user = await manager.findOneBy(User, { email });

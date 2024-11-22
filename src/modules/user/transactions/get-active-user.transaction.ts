@@ -1,13 +1,13 @@
-import { UnauthorizedException } from '@nestjs/common';
-import { DataSource, EntityManager } from 'typeorm';
-
 import { User } from '@/entities/user.entity';
 import { Transaction } from '@/shared/transaction';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { DataSource, EntityManager } from 'typeorm';
 
 type TransactionInput = string;
 type TransactionOutput = User;
 
-export class GetSessionTransaction extends Transaction<
+@Injectable()
+export class GetActiveUserTransaction extends Transaction<
   TransactionInput,
   TransactionOutput
 > {
@@ -20,7 +20,10 @@ export class GetSessionTransaction extends Transaction<
     manager: EntityManager,
   ): Promise<TransactionOutput> {
     const user = await manager.findOne(User, {
-      where: { id: userId },
+      where: {
+        id: userId,
+      },
+      relations: ['account'],
       select: ['id', 'email'],
     });
 

@@ -1,25 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 
-import { Configuration } from '@/modules/configuration/configuration.entity';
+import { Configuration } from '@/entities/configuration.entity';
 import { Transaction } from '@/shared/transaction';
 
-type CreateConfigurationTransactionInput = string;
-type CreateConfigurationTransactionOutput = Configuration;
+type TransactionInput = string;
+type TransactionOutput = Configuration;
 
 @Injectable()
 export class CreateConfigurationTransaction extends Transaction<
-  CreateConfigurationTransactionInput,
-  CreateConfigurationTransactionOutput
+  TransactionInput,
+  TransactionOutput
 > {
   constructor(dataSource: DataSource) {
     super(dataSource);
   }
 
   protected async execute(
-    userId: CreateConfigurationTransactionInput,
+    userId: TransactionInput,
     manager: EntityManager,
-  ): Promise<CreateConfigurationTransactionOutput> {
+  ): Promise<TransactionOutput> {
     const configuration = manager.create(Configuration, {
       user: {
         id: userId,

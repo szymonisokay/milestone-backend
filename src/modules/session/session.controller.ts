@@ -1,8 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 
 import { ActiveUser } from '@/decorators/active-user.decorator';
+import { User } from '@/entities/user.entity';
 import { SessionService } from '@/modules/session/session.service';
-import { User } from '@/modules/user/user.entity';
 
 @Controller('session')
 export class SessionController {
