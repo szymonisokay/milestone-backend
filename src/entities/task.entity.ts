@@ -6,13 +6,13 @@ import { GlobalEntity } from '@/shared/global.entity';
 
 @Entity()
 export class Task extends GlobalEntity {
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', unique: true })
   identifier: string;
 
-  @Column({ type: 'varchar' })
-  name?: string;
+  @Column({ type: 'varchar', nullable: true })
+  name?: string | null;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   description?: string;
 
   @ManyToOne(() => Sprint, (sprint) => sprint.tasks)

@@ -14,6 +14,7 @@ import { OnboardingModule } from '@/modules/onboarding/onboarding.module';
 import { ProjectModule } from '@/modules/projects/projects.module';
 import { SessionModule } from '@/modules/session/session.module';
 import { SprintsModule } from '@/modules/sprints/sprints.module';
+import { TasksModule } from '@/modules/tasks/tasks.module';
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
@@ -40,6 +41,7 @@ import { UserModule } from '@/modules/user/user.module';
     OnboardingModule,
     ProjectModule,
     SprintsModule,
+    TasksModule,
   ],
   providers: [],
 })
