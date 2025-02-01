@@ -50,8 +50,10 @@ export class CreateWorkspaceTransaction extends Transaction<
     await manager.save(workspace);
 
     const workspaceMember = manager.create(WorkspaceMember, {
-      memberId: userId,
-      workspaceId: workspace.id,
+      member: {
+        id: userId,
+      },
+      workspace: { id: workspace.id },
     });
 
     await manager.save(workspaceMember);

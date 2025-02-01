@@ -5,7 +5,7 @@ import { Configuration } from '@/entities/configuration.entity';
 import { Workspace } from '@/entities/workspace.entity';
 import { GlobalEntity } from '@/shared/global.entity';
 
-@Entity('user')
+@Entity()
 export class User extends GlobalEntity {
   @Column({ unique: true })
   email: string;

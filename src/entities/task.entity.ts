@@ -7,6 +7,9 @@ import { GlobalEntity } from '@/shared/global.entity';
 @Entity()
 export class Task extends GlobalEntity {
   @Column({ type: 'varchar' })
+  identifier: string;
+
+  @Column({ type: 'varchar' })
   name?: string;
 
   @Column({ type: 'varchar' })

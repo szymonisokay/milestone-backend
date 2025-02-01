@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 
-import { AddProjectDto } from '@/modules/projects/dto/add-project.dto';
-import { AddProjectTransaction } from '@/modules/projects/transactions/add-project.transaction';
+import { CreateProjectDto } from '@/modules/projects/dto/create-project.dto';
+import { CreateProjectTransaction } from '@/modules/projects/transactions/create-project.transaction';
 import { GetProjectTransaction } from '@/modules/projects/transactions/get-project.transaction';
 import { GetProjectsTransaction } from '@/modules/projects/transactions/get-projects.transaction';
 
 @Injectable()
 export class ProjectService {
   constructor(
-    private readonly addProjectTransaction: AddProjectTransaction,
+    private readonly createProjectTransaction: CreateProjectTransaction,
     private readonly getProjectsTransaction: GetProjectsTransaction,
     private readonly getProjectTransaction: GetProjectTransaction,
   ) {}
 
-  async addProject(userId: string, addProjectDto: AddProjectDto) {
-    return this.addProjectTransaction.run({ ...addProjectDto, userId });
+  async createProject(userId: string, createProjectDto: CreateProjectDto) {
+    return this.createProjectTransaction.run({ ...createProjectDto, userId });
   }
 
   async getProjects(userId: string) {

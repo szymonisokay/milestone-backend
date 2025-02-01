@@ -9,12 +9,12 @@ export class GlobalEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @CreateDateColumn({ type: 'timestamp without time zone', select: false })
+  @CreateDateColumn({ type: 'timestamptz', select: false })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp without time zone', select: false })
-  updatedAt: Date;
+  @UpdateDateColumn({ type: 'timestamptz', select: false, nullable: true })
+  updatedAt: Date | null;
 
-  @DeleteDateColumn({ type: 'timestamp without time zone', select: false })
-  deletedAt: Date;
+  @DeleteDateColumn({ type: 'timestamptz', select: false, nullable: true })
+  deletedAt: Date | null;
 }

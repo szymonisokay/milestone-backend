@@ -21,7 +21,13 @@ export class CreateAccountTransaction extends Transaction<
     data: TransactionInput,
     manager: EntityManager,
   ): Promise<TransactionOutput> {
-    const account = manager.create(Account, data);
+    const { userId, ...accountDetails } = data;
+    const account = manager.create(Account, {
+      ...accountDetails,
+      user: {
+        id: userId,
+      },
+    });
 
     return await manager.save(account);
   }

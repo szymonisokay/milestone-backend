@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
+import { Sprint } from '@/entities/sprint.entity';
 import { Workspace } from '@/entities/workspace.entity';
 import { GlobalEntity } from '@/shared/global.entity';
 
@@ -14,10 +15,9 @@ export class Project extends GlobalEntity {
   @Column({ type: 'varchar' })
   description?: string;
 
-  @PrimaryColumn()
-  workspaceId: string;
-
   @ManyToOne(() => Workspace, (workspace) => workspace.projects)
-  @JoinColumn({ name: 'workspaceId' })
   workspace: Workspace;
+
+  @OneToMany(() => Sprint, (sprint) => sprint.project)
+  sprints: Sprint[];
 }

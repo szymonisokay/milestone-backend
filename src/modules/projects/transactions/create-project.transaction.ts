@@ -3,25 +3,29 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { DataSource, EntityManager } from 'typeorm';
 
 import { Configuration } from '@/entities/configuration.entity';
 import { Project } from '@/entities/project.entity';
 import { User } from '@/entities/user.entity';
-import { AddProjectDto } from '@/modules/projects/dto/add-project.dto';
+import { CreateProjectDto } from '@/modules/projects/dto/create-project.dto';
+import { CreateSprintTransaction } from '@/modules/sprints/transactions/create-sprint.transaction';
 import { Transaction } from '@/shared/transaction';
-import { DataSource, EntityManager } from 'typeorm';
 
 type TransactionInput = {
   userId: string;
-} & AddProjectDto;
+} & CreateProjectDto;
 type TransactionOutput = Project;
 
 @Injectable()
-export class AddProjectTransaction extends Transaction<
+export class CreateProjectTransaction extends Transaction<
   TransactionInput,
   TransactionOutput
 > {
-  constructor(dataSource: DataSource) {
+  constructor(
+    dataSource: DataSource,
+    private readonly createSprintTransaction: CreateSprintTransaction,
+  ) {
     super(dataSource);
   }
 
@@ -29,7 +33,7 @@ export class AddProjectTransaction extends Transaction<
     data: TransactionInput,
     manager: EntityManager,
   ): Promise<TransactionOutput> {
-    const { userId, ...addProjectDto } = data;
+    const { userId, ...createProjectDto } = data;
 
     const user = await manager.findOne(User, {
       where: {
@@ -43,7 +47,9 @@ export class AddProjectTransaction extends Transaction<
 
     const configuration = await manager.findOne(Configuration, {
       where: {
-        userId,
+        user: {
+          id: userId,
+        },
       },
     });
 
@@ -51,9 +57,15 @@ export class AddProjectTransaction extends Transaction<
       throw new NotFoundException('Configuration not found');
     }
 
+    if (!configuration.workspaceId) {
+      throw new NotFoundException('Workspace not found');
+    }
+
     const projectSymbolExists = await manager.existsBy(Project, {
-      symbol: addProjectDto.symbol,
-      workspaceId: configuration.workspaceId ?? '',
+      symbol: createProjectDto.symbol,
+      workspace: {
+        id: configuration.workspaceId,
+      },
     });
 
     if (projectSymbolExists) {
@@ -61,12 +73,26 @@ export class AddProjectTransaction extends Transaction<
     }
 
     const project = manager.create(Project, {
-      ...addProjectDto,
+      ...createProjectDto,
       workspace: {
-        id: configuration.workspaceId ?? '',
+        id: configuration.workspaceId,
       },
     });
 
-    return await manager.save(project);
+    const createdProject = await manager.save(project);
+
+    await this.createBacklog(createdProject.id, manager);
+
+    return createdProject;
+  }
+
+  private async createBacklog(projectId: string, manager: EntityManager) {
+    return this.createSprintTransaction.runWithinTransaction(
+      {
+        name: 'Backlog',
+        projectId,
+      },
+      manager,
+    );
   }
 }
