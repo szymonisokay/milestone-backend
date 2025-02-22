@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from '@/modules/tasks/dto/create-task.dto';
 import { UpdateTaskDto } from '@/modules/tasks/dto/update-task.dto';
 import { CreateTaskTransaction } from '@/modules/tasks/transactions/create-task.transaction';
+import { DeleteTaskTransaction } from '@/modules/tasks/transactions/delete-task.transaction';
 import { UpdateTaskTransaction } from '@/modules/tasks/transactions/update-task.transaction';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class TasksService {
   constructor(
     private readonly createTaskTransaction: CreateTaskTransaction,
     private readonly updateTaskTransaction: UpdateTaskTransaction,
+    private readonly deleteTaskTransaction: DeleteTaskTransaction,
   ) {}
 
   async createTask(
@@ -29,5 +31,9 @@ export class TasksService {
       sprintId,
       updateTaskDto,
     });
+  }
+
+  async deleteTask(sprintId: string, taskId: string) {
+    return this.deleteTaskTransaction.run({ sprintId, taskId });
   }
 }

@@ -10,7 +10,7 @@ export class Task extends GlobalEntity {
   identifier: string;
 
   @Column({ type: 'varchar', nullable: true })
-  name?: string | null;
+  name: string;
 
   @Column({ type: 'varchar', nullable: true })
   description?: string;

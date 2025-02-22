@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
 
 import { ActiveUser } from '@/decorators/active-user.decorator';
 import { User } from '@/entities/user.entity';
@@ -25,5 +25,10 @@ export class TasksController {
     @Body() updateTaskDto: UpdateTaskDto,
   ) {
     return this.tasksService.updateTask(sprintId, updateTaskDto);
+  }
+
+  @Delete(':sprintId/:id')
+  delete(@Param('sprintId') sprintId: string, @Param('id') taskId: string) {
+    return this.tasksService.deleteTask(sprintId, taskId);
   }
 }

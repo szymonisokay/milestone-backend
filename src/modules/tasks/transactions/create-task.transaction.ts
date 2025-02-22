@@ -1,9 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 
+import { Project } from '@/entities/project.entity';
 import { Sprint } from '@/entities/sprint.entity';
 import { Task } from '@/entities/task.entity';
 import { CreateTaskDto } from '@/modules/tasks/dto/create-task.dto';
+import { createIdentifier } from '@/modules/tasks/utils/create-identifier';
 import { Transaction } from '@/shared/transaction';
 
 type TransactionInput = {
@@ -36,11 +38,24 @@ export class CreateTaskTransaction extends Transaction<
       throw new NotFoundException('Sprint not found');
     }
 
-    const identifier = await manager.count(Task);
+    const project = await manager.findOne(Project, {
+      where: {
+        sprints: {
+          id: sprintId,
+        },
+      },
+    });
+
+    if (!project) {
+      throw new NotFoundException('Project not found');
+    }
+
+    const taskCount = await manager.count(Task, { withDeleted: true });
+    const identifier = createIdentifier(taskCount, project.symbol);
 
     const task = manager.create(Task, {
       ...createTaskDto,
-      identifier: `PR1-${identifier.toString().padStart(2, '0')}`,
+      identifier,
       sprint: {
         id: sprintId,
       },
