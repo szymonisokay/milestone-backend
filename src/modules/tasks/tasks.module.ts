@@ -6,6 +6,7 @@ import { TasksController } from '@/modules/tasks/tasks.controller';
 import { TasksService } from '@/modules/tasks/tasks.service';
 import { CreateTaskTransaction } from '@/modules/tasks/transactions/create-task.transaction';
 import { DeleteTaskTransaction } from '@/modules/tasks/transactions/delete-task.transaction';
+import { GetTaskTransaction } from '@/modules/tasks/transactions/get-task.transaction';
 import { UpdateTaskTransaction } from '@/modules/tasks/transactions/update-task.transaction';
 
 @Module({
@@ -13,6 +14,7 @@ import { UpdateTaskTransaction } from '@/modules/tasks/transactions/update-task.
   controllers: [TasksController],
   providers: [
     TasksService,
+    GetTaskTransaction,
     CreateTaskTransaction,
     UpdateTaskTransaction,
     DeleteTaskTransaction,

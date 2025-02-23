@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 
 import { ActiveUser } from '@/decorators/active-user.decorator';
 import { User } from '@/entities/user.entity';
@@ -9,6 +17,11 @@ import { TasksService } from '@/modules/tasks/tasks.service';
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
+
+  @Get(':sprintId/:taskId')
+  get(@Param('sprintId') sprintId: string, @Param('taskId') taskId: string) {
+    return this.tasksService.getTask(sprintId, taskId);
+  }
 
   @Post(':sprintId')
   create(
@@ -27,8 +40,8 @@ export class TasksController {
     return this.tasksService.updateTask(sprintId, updateTaskDto);
   }
 
-  @Delete(':sprintId/:id')
-  delete(@Param('sprintId') sprintId: string, @Param('id') taskId: string) {
+  @Delete(':sprintId/:taskId')
+  delete(@Param('sprintId') sprintId: string, @Param('taskId') taskId: string) {
     return this.tasksService.deleteTask(sprintId, taskId);
   }
 }
