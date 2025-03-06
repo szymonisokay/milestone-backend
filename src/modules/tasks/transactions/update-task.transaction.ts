@@ -7,6 +7,7 @@ import { Transaction } from '@/shared/transaction';
 
 type TransactionInput = {
   sprintId: string;
+  taskId: string;
   updateTaskDto: UpdateTaskDto;
 };
 type TransactionOutput = Task;
@@ -24,8 +25,7 @@ export class UpdateTaskTransaction extends Transaction<
     data: TransactionInput,
     manager: EntityManager,
   ): Promise<TransactionOutput> {
-    const { sprintId, updateTaskDto } = data;
-    const { taskId } = updateTaskDto;
+    const { sprintId, taskId, updateTaskDto } = data;
 
     const task = await manager.findOne(Task, {
       where: {

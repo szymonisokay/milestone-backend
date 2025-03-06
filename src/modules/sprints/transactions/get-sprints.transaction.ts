@@ -31,12 +31,6 @@ export class GetSprintsTransaction extends Transaction<
           id: projectId,
         },
       },
-      relations: [
-        'tasks',
-        'tasks.creator',
-        'tasks.creator.member',
-        'tasks.assignee',
-      ],
     });
 
     if (!backlog) {
@@ -52,7 +46,6 @@ export class GetSprintsTransaction extends Transaction<
           id: projectId,
         },
       },
-      relations: ['tasks', 'tasks.creator', 'tasks.assignee'],
     });
 
     return [...sprints, backlog];
