@@ -10,7 +10,7 @@ export class Workspace extends GlobalEntity {
   @Column()
   name: string;
 
-  @ManyToOne(() => User, (user) => user.workspaces)
+  @ManyToOne(() => User)
   owner: User;
 
   @OneToMany(() => WorkspaceMember, (member) => member.workspace)

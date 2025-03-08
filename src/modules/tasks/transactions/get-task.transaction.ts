@@ -32,6 +32,14 @@ export class GetTaskTransaction extends Transaction<
           id: sprintId,
         },
       },
+      relations: [
+        'creator',
+        'creator.member',
+        'creator.member.account',
+        'assignee',
+        'assignee.member',
+        'assignee.member.account',
+      ],
     });
 
     if (!task) {

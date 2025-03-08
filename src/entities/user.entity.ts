@@ -10,7 +10,7 @@ export class User extends GlobalEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @OneToOne(() => Configuration, (configuration) => configuration.user)

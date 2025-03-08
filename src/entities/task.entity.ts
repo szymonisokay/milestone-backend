@@ -18,11 +18,9 @@ export class Task extends GlobalEntity {
   @ManyToOne(() => Sprint, (sprint) => sprint.tasks)
   sprint: Sprint;
 
-  @ManyToOne(() => WorkspaceMember, (member) => member.tasks)
+  @ManyToOne(() => WorkspaceMember)
   creator: WorkspaceMember;
 
-  @ManyToOne(() => WorkspaceMember, (member) => member.tasks, {
-    nullable: true,
-  })
-  assignee?: WorkspaceMember;
+  @ManyToOne(() => WorkspaceMember, { nullable: true })
+  assignee?: WorkspaceMember | null;
 }

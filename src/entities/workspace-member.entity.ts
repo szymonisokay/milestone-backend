@@ -17,6 +17,6 @@ export class WorkspaceMember extends GlobalEntity {
   @Column({ type: 'enum', enum: MemberRoles, default: MemberRoles.MEMBER })
   role: MemberRoles;
 
-  @OneToMany(() => Task, (task) => task.creator)
+  @OneToMany(() => Task, (task) => task.assignee)
   tasks: Task[];
 }
