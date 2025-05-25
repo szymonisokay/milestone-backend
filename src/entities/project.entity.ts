@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 import { Sprint } from '@/entities/sprint.entity';
+import { TaskColumn } from '@/entities/task-column.entity';
 import { Workspace } from '@/entities/workspace.entity';
 import { GlobalEntity } from '@/shared/global.entity';
 
@@ -20,4 +21,7 @@ export class Project extends GlobalEntity {
 
   @OneToMany(() => Sprint, (sprint) => sprint.project)
   sprints: Sprint[];
+
+  @OneToMany(() => TaskColumn, (taskColumn) => taskColumn.project)
+  taskColumns: TaskColumn[];
 }
