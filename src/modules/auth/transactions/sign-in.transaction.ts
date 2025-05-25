@@ -25,7 +25,12 @@ export class SignInTransaction extends Transaction<
   ): Promise<TransactionOutput> {
     const { email, password, rememberMe } = data;
 
-    const user = await manager.findOneBy(User, { email });
+    const user = await manager.findOne(User, {
+      where: {
+        email,
+      },
+      select: ['id', 'password'],
+    });
 
     if (!user) {
       throw new NotFoundException('Email or password is incorrect');
