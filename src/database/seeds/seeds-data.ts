@@ -2,6 +2,7 @@ import { Account } from '@/entities/account.entity';
 import { Configuration } from '@/entities/configuration.entity';
 import { Project } from '@/entities/project.entity';
 import { Sprint } from '@/entities/sprint.entity';
+import { TaskStatus } from '@/entities/task-status.entity';
 import { Task } from '@/entities/task.entity';
 import { User } from '@/entities/user.entity';
 import { WorkspaceMember } from '@/entities/workspace-member.entity';
@@ -168,6 +169,9 @@ const tasksData: Task[] = [
     assignee: {
       id: '00000000-0000-0000-0000-000000000001',
     } as WorkspaceMember,
+    status: {
+      id: '00000000-0000-0000-0000-000000000001',
+    } as TaskStatus,
     createdAt: new Date(),
     updatedAt: null,
     deletedAt: null,
@@ -183,6 +187,9 @@ const tasksData: Task[] = [
     creator: {
       id: '00000000-0000-0000-0000-000000000001',
     } as WorkspaceMember,
+    status: {
+      id: '00000000-0000-0000-0000-000000000001',
+    } as TaskStatus,
     createdAt: new Date(),
     updatedAt: null,
     deletedAt: null,

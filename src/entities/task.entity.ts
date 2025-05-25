@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 import { Sprint } from '@/entities/sprint.entity';
+import { TaskStatus } from '@/entities/task-status.entity';
 import { WorkspaceMember } from '@/entities/workspace-member.entity';
 import { GlobalEntity } from '@/shared/global.entity';
 
@@ -23,4 +24,7 @@ export class Task extends GlobalEntity {
 
   @ManyToOne(() => WorkspaceMember, { nullable: true })
   assignee?: WorkspaceMember | null;
+
+  @ManyToOne(() => TaskStatus)
+  status: TaskStatus;
 }

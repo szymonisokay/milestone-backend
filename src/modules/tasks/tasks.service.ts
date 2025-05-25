@@ -4,6 +4,7 @@ import { CreateTaskDto } from '@/modules/tasks/dto/create-task.dto';
 import { UpdateTaskDto } from '@/modules/tasks/dto/update-task.dto';
 import { CreateTaskTransaction } from '@/modules/tasks/transactions/create-task.transaction';
 import { DeleteTaskTransaction } from '@/modules/tasks/transactions/delete-task.transaction';
+import { GetTaskStatusesTransaction } from '@/modules/tasks/transactions/get-task-statuses.transaction';
 import { GetTaskTransaction } from '@/modules/tasks/transactions/get-task.transaction';
 import { GetTasksTransaction } from '@/modules/tasks/transactions/get-tasks.transaction';
 import { UpdateTaskTransaction } from '@/modules/tasks/transactions/update-task.transaction';
@@ -16,6 +17,7 @@ export class TasksService {
     private readonly createTaskTransaction: CreateTaskTransaction,
     private readonly updateTaskTransaction: UpdateTaskTransaction,
     private readonly deleteTaskTransaction: DeleteTaskTransaction,
+    private readonly getTaskStatusesTransaction: GetTaskStatusesTransaction,
   ) {}
 
   async getTasks(sprintId: string) {
@@ -52,5 +54,9 @@ export class TasksService {
 
   async deleteTask(sprintId: string, taskId: string) {
     return this.deleteTaskTransaction.run({ sprintId, taskId });
+  }
+
+  async getTaskStatuses(workspaceId: string) {
+    return this.getTaskStatusesTransaction.run({ workspaceId });
   }
 }

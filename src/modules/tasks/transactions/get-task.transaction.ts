@@ -39,6 +39,7 @@ export class GetTaskTransaction extends Transaction<
         'assignee',
         'assignee.member',
         'assignee.member.account',
+        'status',
       ],
     });
 

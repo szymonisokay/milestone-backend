@@ -5,6 +5,7 @@ import { Task } from '@/entities/task.entity';
 import { TasksService } from '@/modules/tasks/tasks.service';
 import { CreateTaskTransaction } from '@/modules/tasks/transactions/create-task.transaction';
 import { DeleteTaskTransaction } from '@/modules/tasks/transactions/delete-task.transaction';
+import { GetTaskStatusesTransaction } from '@/modules/tasks/transactions/get-task-statuses.transaction';
 import { GetTaskTransaction } from '@/modules/tasks/transactions/get-task.transaction';
 import { GetTasksTransaction } from '@/modules/tasks/transactions/get-tasks.transaction';
 import { UpdateTaskTransaction } from '@/modules/tasks/transactions/update-task.transaction';
@@ -19,6 +20,7 @@ import { UpdateTaskTransaction } from '@/modules/tasks/transactions/update-task.
     CreateTaskTransaction,
     UpdateTaskTransaction,
     DeleteTaskTransaction,
+    GetTaskStatusesTransaction,
   ],
   exports: [
     TasksService,
@@ -27,6 +29,7 @@ import { UpdateTaskTransaction } from '@/modules/tasks/transactions/update-task.
     CreateTaskTransaction,
     UpdateTaskTransaction,
     DeleteTaskTransaction,
+    GetTaskStatusesTransaction,
   ],
 })
 export class TasksModule {}

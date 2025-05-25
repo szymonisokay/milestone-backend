@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 
 import { ActiveUser } from '@/decorators/active-user.decorator';
@@ -67,5 +68,10 @@ export class SprintsController {
   @Delete(':sprintId/tasks/:taskId')
   delete(@Param('sprintId') sprintId: string, @Param('taskId') taskId: string) {
     return this.tasksService.deleteTask(sprintId, taskId);
+  }
+
+  @Get('tasks/status')
+  getTaskStatuses(@Query('workspaceId') workspaceId: string) {
+    return this.tasksService.getTaskStatuses(workspaceId);
   }
 }
