@@ -16,6 +16,7 @@ import { SessionModule } from '@/modules/session/session.module';
 import { SprintsModule } from '@/modules/sprints/sprints.module';
 import { TasksModule } from '@/modules/tasks/tasks.module';
 import { UserModule } from '@/modules/user/user.module';
+import { WorkspaceModule } from '@/modules/workspace/workspace.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { UserModule } from '@/modules/user/user.module';
     ProjectModule,
     SprintsModule,
     TasksModule,
+    WorkspaceModule,
   ],
   providers: [],
 })
