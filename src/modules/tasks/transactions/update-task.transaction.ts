@@ -26,6 +26,7 @@ export class UpdateTaskTransaction extends Transaction<
     manager: EntityManager,
   ): Promise<TransactionOutput> {
     const { sprintId, taskId, updateTaskDto } = data;
+    const { assigneeId } = updateTaskDto;
 
     const task = await manager.findOne(Task, {
       where: {
@@ -42,6 +43,7 @@ export class UpdateTaskTransaction extends Transaction<
 
     const preloadedTask = await manager.preload(Task, {
       id: taskId,
+      assignee: assigneeId !== null ? { id: assigneeId } : null,
       ...updateTaskDto,
     });
 

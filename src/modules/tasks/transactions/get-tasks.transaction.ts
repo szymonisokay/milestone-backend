@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, EntityManager } from 'typeorm';
 
 import { Task } from '@/entities/task.entity';
+import { mapTask } from '@/modules/tasks/utils/map-task';
 import { Transaction } from '@/shared/transaction';
+import { TaskResponse } from '@/types/task';
 
 type TransactionInput = {
   sprintId: string;
 };
-type TransactionOutput = Task[];
+type TransactionOutput = TaskResponse[];
 
 @Injectable()
 export class GetTasksTransaction extends Transaction<
@@ -30,8 +32,20 @@ export class GetTasksTransaction extends Transaction<
           id: sprintId,
         },
       },
+      relations: [
+        'creator',
+        'creator.member',
+        'creator.member.account',
+        'assignee',
+        'assignee.member',
+        'assignee.member.account',
+        'status',
+      ],
+      order: {
+        createdAt: 'ASC',
+      },
     });
 
-    return tasks;
+    return tasks.map(mapTask);
   }
 }
