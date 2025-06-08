@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, EntityManager } from 'typeorm';
+import { DataSource, EntityManager, Not } from 'typeorm';
 
 import { Sprint } from '@/entities/sprint.entity';
 import { CreateSprintDto } from '@/modules/sprints/dto/create-sprint.dto';
@@ -23,9 +23,11 @@ export class CreateSprintTransaction extends Transaction<
   ): Promise<TransactionOutput> {
     const { name, projectId, ...sprintData } = data;
 
+    const sprintName = await this.getSprintName(name, projectId, manager);
+
     const sprintExists = await manager.exists(Sprint, {
       where: {
-        name,
+        name: sprintName,
         project: {
           id: projectId,
         },
@@ -38,12 +40,33 @@ export class CreateSprintTransaction extends Transaction<
 
     const sprint = manager.create(Sprint, {
       ...sprintData,
-      name,
+      name: sprintName,
       project: {
         id: projectId,
       },
     });
 
     return await manager.save(sprint);
+  }
+
+  private async getSprintName(
+    name: string = '',
+    projectId: string,
+    manager: EntityManager,
+  ) {
+    if (name) {
+      return name;
+    }
+
+    const sprintsCount = await manager.count(Sprint, {
+      where: {
+        name: Not('Backlog'),
+        project: {
+          id: projectId,
+        },
+      },
+    });
+
+    return `Sprint ${sprintsCount + 1}`;
   }
 }

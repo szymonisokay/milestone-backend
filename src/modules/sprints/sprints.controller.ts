@@ -4,14 +4,15 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 
 import { ActiveUser } from '@/decorators/active-user.decorator';
 import { User } from '@/entities/user.entity';
 import { CreateSprintDto } from '@/modules/sprints/dto/create-sprint.dto';
+import { UpdateSprintDto } from '@/modules/sprints/dto/update-sprint.dto';
 import { SprintsService } from '@/modules/sprints/sprints.service';
 import { CreateTaskDto } from '@/modules/tasks/dto/create-task.dto';
 import { UpdateTaskDto } from '@/modules/tasks/dto/update-task.dto';
@@ -32,6 +33,14 @@ export class SprintsController {
   @Post()
   async create(@Body() createSprintDto: CreateSprintDto) {
     return this.sprintsService.create(createSprintDto);
+  }
+
+  @Put(':sprintId')
+  async update(
+    @Param('sprintId') sprintId: string,
+    @Body() updateSprintDto: UpdateSprintDto,
+  ) {
+    return this.sprintsService.update(sprintId, updateSprintDto);
   }
 
   @Get(':sprintId/tasks')
@@ -56,8 +65,8 @@ export class SprintsController {
     return this.tasksService.createTask(sprintId, user.id, createTaskDto);
   }
 
-  @Patch(':sprintId/tasks/:taskId')
-  update(
+  @Put(':sprintId/tasks/:taskId')
+  updateTask(
     @Param('sprintId') sprintId: string,
     @Param('taskId') taskId: string,
     @Body() updateTaskDto: UpdateTaskDto,
@@ -66,7 +75,10 @@ export class SprintsController {
   }
 
   @Delete(':sprintId/tasks/:taskId')
-  delete(@Param('sprintId') sprintId: string, @Param('taskId') taskId: string) {
+  deleteTask(
+    @Param('sprintId') sprintId: string,
+    @Param('taskId') taskId: string,
+  ) {
     return this.tasksService.deleteTask(sprintId, taskId);
   }
 

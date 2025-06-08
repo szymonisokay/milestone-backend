@@ -40,11 +40,14 @@ export class GetSprintsTransaction extends Transaction<
     const sprints = await manager.find(Sprint, {
       where: {
         name: Not('Backlog'),
-        isActive: false,
         isCompleted: false,
         project: {
           id: projectId,
         },
+      },
+      order: {
+        isActive: 'DESC',
+        createdAt: 'DESC',
       },
     });
 
