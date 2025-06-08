@@ -5,6 +5,7 @@ import { Sprint } from '@/entities/sprint.entity';
 import { SprintsController } from '@/modules/sprints/sprints.controller';
 import { SprintsService } from '@/modules/sprints/sprints.service';
 import { CreateSprintTransaction } from '@/modules/sprints/transactions/create-sprint.transaction';
+import { GetActiveSprintTransaction } from '@/modules/sprints/transactions/get-active-sprint.transaction';
 import { GetSprintsTransaction } from '@/modules/sprints/transactions/get-sprints.transaction';
 import { UpdateSprintTransaction } from '@/modules/sprints/transactions/update-sprint.transaction';
 import { TasksModule } from '@/modules/tasks/tasks.module';
@@ -17,6 +18,7 @@ import { TasksModule } from '@/modules/tasks/tasks.module';
     CreateSprintTransaction,
     GetSprintsTransaction,
     UpdateSprintTransaction,
+    GetActiveSprintTransaction,
   ],
 })
 export class SprintsModule {}

@@ -3,6 +3,7 @@ import { DataSource, EntityManager } from 'typeorm';
 
 import { Project } from '@/entities/project.entity';
 import { Sprint } from '@/entities/sprint.entity';
+import { TaskStatus } from '@/entities/task-status.entity';
 import { Task } from '@/entities/task.entity';
 import { CreateTaskDto } from '@/modules/tasks/dto/create-task.dto';
 import { createIdentifier } from '@/modules/tasks/utils/create-identifier';
@@ -52,6 +53,15 @@ export class CreateTaskTransaction extends Transaction<
 
     const taskCount = await manager.count(Task, { withDeleted: true });
     const identifier = createIdentifier(taskCount, project.symbol);
+    const defaultStatus = await manager.findOne(TaskStatus, {
+      where: {
+        name: 'To Do',
+      },
+    });
+
+    if (!defaultStatus) {
+      throw new NotFoundException('Default status not found');
+    }
 
     const task = manager.create(Task, {
       ...createTaskDto,
@@ -61,6 +71,9 @@ export class CreateTaskTransaction extends Transaction<
       },
       creator: {
         id: userId,
+      },
+      status: {
+        id: defaultStatus.id,
       },
     });
 

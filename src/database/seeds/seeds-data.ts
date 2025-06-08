@@ -2,6 +2,7 @@ import { Account } from '@/entities/account.entity';
 import { Configuration } from '@/entities/configuration.entity';
 import { Project } from '@/entities/project.entity';
 import { Sprint } from '@/entities/sprint.entity';
+import { TaskColumn } from '@/entities/task-column.entity';
 import { TaskStatus } from '@/entities/task-status.entity';
 import { Task } from '@/entities/task.entity';
 import { User } from '@/entities/user.entity';
@@ -17,7 +18,8 @@ type Entities =
   | WorkspaceMember
   | Project
   | Sprint
-  | Task;
+  | Task
+  | TaskColumn;
 
 type SeedData = {
   entity: new () => Entities;
@@ -196,6 +198,35 @@ const tasksData: Task[] = [
   },
 ];
 
+const taskColumnData: TaskColumn[] = [
+  {
+    id: '00000000-0000-0000-0000-000000000001',
+    color: 'red',
+    status: {
+      id: '00000000-0000-0000-0000-000000000001',
+    } as TaskStatus,
+    project: {
+      id: '00000000-0000-0000-0000-000000000001',
+    } as Project,
+    createdAt: new Date(),
+    updatedAt: null,
+    deletedAt: null,
+  },
+  {
+    id: '00000000-0000-0000-0000-000000000002',
+    color: 'blue',
+    status: {
+      id: '00000000-0000-0000-0000-000000000002',
+    } as TaskStatus,
+    project: {
+      id: '00000000-0000-0000-0000-000000000001',
+    } as Project,
+    createdAt: new Date(),
+    updatedAt: null,
+    deletedAt: null,
+  },
+];
+
 export const seedData: SeedData = [
   {
     entity: User,
@@ -228,5 +259,9 @@ export const seedData: SeedData = [
   {
     entity: Task,
     data: tasksData,
+  },
+  {
+    entity: TaskColumn,
+    data: taskColumnData,
   },
 ];

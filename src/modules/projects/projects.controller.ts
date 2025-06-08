@@ -26,4 +26,9 @@ export class ProjectController {
   getProject(@ActiveUser() user: User, @Param('symbol') symbol: string) {
     return this.projectService.getProject(user.id, symbol);
   }
+
+  @Get(':projectId/board-columns')
+  getBoardColumns(@Param('projectId') projectId: string) {
+    return this.projectService.getBoardColumns(projectId);
+  }
 }

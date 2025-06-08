@@ -30,6 +30,11 @@ export class SprintsController {
     return this.sprintsService.get({ projectId });
   }
 
+  @Get(':projectId/active')
+  async getActiveSprint(@Param('projectId') projectId: string) {
+    return this.sprintsService.getActiveSprint(projectId);
+  }
+
   @Post()
   async create(@Body() createSprintDto: CreateSprintDto) {
     return this.sprintsService.create(createSprintDto);

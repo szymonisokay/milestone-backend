@@ -6,6 +6,7 @@ import { GetConfigurationTransaction } from '@/modules/configuration/transaction
 import { ProjectController } from '@/modules/projects/projects.controller';
 import { ProjectService } from '@/modules/projects/projects.service';
 import { CreateProjectTransaction } from '@/modules/projects/transactions/create-project.transaction';
+import { GetBoardColumnsTransaction } from '@/modules/projects/transactions/get-board-columns.transaction';
 import { GetProjectTransaction } from '@/modules/projects/transactions/get-project.transaction';
 import { GetProjectsTransaction } from '@/modules/projects/transactions/get-projects.transaction';
 import { CreateSprintTransaction } from '@/modules/sprints/transactions/create-sprint.transaction';
@@ -20,6 +21,7 @@ import { CreateSprintTransaction } from '@/modules/sprints/transactions/create-s
     GetProjectTransaction,
     GetConfigurationTransaction,
     CreateSprintTransaction,
+    GetBoardColumnsTransaction,
   ],
 })
 export class ProjectModule {}
